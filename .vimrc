@@ -110,6 +110,8 @@ set foldmethod=indent
 set foldlevel=99
 
 colorscheme railscasts
+hi Normal ctermbg=none
+hi NonText ctermbg=none
 
 " Enable folding with the spacebar
 nnoremap <space> za
