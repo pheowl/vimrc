@@ -24,6 +24,7 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
 Plugin 'vim-airline/vim-airline'
 Plugin 'jpo/vim-railscasts-theme'
+Plugin 'vim-scripts/taglist.vim'
 " Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
 
 
@@ -37,6 +38,18 @@ set laststatus=2
 
 map <F2> :NERDTreeToggle<CR>
 map <F3> :setlocal spell! spelllang=en_us<CR>
+set pastetoggle=<F4>
+set showmode
+
+"Taglist
+let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_Close_On_Select = 1
+let Tlist_Use_Right_Window = 1
+let Tlist_File_Fold_Auto_Close = 1
+map <F5> :TlistToggle<CR>
+
+imap <c-g> <Plug>IMAP_JumpForward
+nmap <c-g> <Plug>IMAP_JumpForward
 
 " split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -44,6 +57,7 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap ,html :-1read $HOME/here.py<CR>
+
 
 " autocomplete
 " Python-mode
