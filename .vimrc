@@ -18,12 +18,16 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'klen/python-mode'
+" Plugin 'klen/python-mode'
 Plugin 'scrooloose/syntastic'
 Plugin 'nvie/vim-flake8'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'davidhalter/jedi-vim'
+Plugin 'klen/rope-vim'
 Plugin 'ervandew/supertab'
+
 Plugin 'vim-airline/vim-airline'
 Plugin 'jpo/vim-railscasts-theme'
 Plugin 'vim-scripts/taglist.vim'
@@ -33,13 +37,20 @@ Plugin 'vim-scripts/taglist.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
 let g:SimpylFold_docstring_preview=1
+set foldnestmax=2
+
+"autocomplete
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
+let g:ycm_autoclose_preview_window_after_completion=1
+
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
 let python_highlight_all=1
 syntax on
-
-let g:airline_powerline_fonts = 1
-
 set laststatus=2
+let g:airline_powerline_fonts=1
 
 map <c-m> :!markdown % > %.html && firefox %.html<CR>
 map <F2> :NERDTreeToggle<CR>
@@ -66,65 +77,44 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap ,html :-1read $HOME/here.py<CR>
 
-
-" autocomplete
-" Python-mode
-" " Activate rope
-" " Keys:
-" " K             Show python docs
-" " <Ctrl-Space>  Rope autocomplete
-" " <Ctrl-c>g     Rope goto definition
-" " <Ctrl-c>d     Rope show documentation
-" " <Ctrl-c>f     Rope find occurrences
-" " <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
-" " [[            Jump on previous class or function (normal, visual, operator
-" modes)
-" " ]]            Jump on next class or function (normal, visual, operator
-" modes)
-" " [M            Jump on previous class or method (normal, visual, operator
-" modes)
-" " ]M            Jump on next class or method (normal, visual, operator
-" modes)
-let g:pymode_rope = 0
-
-" " Documentation
-let g:pymode_doc = 1
-let g:pymode_doc_key = 'K'
-"
-" "Linting
-let g:pymode_lint = 1
-let g:pymode_lint_checker = "pyflakes,pep8"
-" " Auto check on save
-let g:pymode_lint_write = 1
-"
-" " Support virtualenv
-let g:pymode_virtualenv = 1
-"
-" " Enable breakpoints plugin
-let g:pymode_breakpoint = 1
-let g:pymode_breakpoint_bind = '<leader>b'
-"
-" " syntax highlighting
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-let g:pymode_syntax_space_errors = g:pymode_syntax_all
-"
-" " Don't autofold code
-let g:pymode_folding = 0
+set noswapfile
 
 " enable folding
 set foldmethod=indent
 set foldlevel=99
 
+"Folding based on indentation:
+autocmd FileType python set foldmethod=indent
+
+set backspace=indent,eol,start
+
 colorscheme railscasts
 hi Normal ctermbg=none
 hi NonText ctermbg=none
+highlight BadWhitespace ctermbg=red guibg=red
 
 " Enable folding with the spacebar
 nnoremap <space> za
 
+"------------Start Python PEP 8 stuff----------------
+" Number of spaces that a pre-existing tab is equal to.
 au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
+
+"spaces for indents
 au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
 au BufRead,BufNewFile *.py,*.pyw set expandtab
 au BufRead,BufNewFile *.py set softtabstop=4
+
+" Use the below highlight group when displaying bad whitespace is desired.
+highlight BadWhitespace ctermbg=red guibg=red
+
+" Display tabs at the beginning of a line in Python mode as bad.
+au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+" Make trailing whitespace be flagged as bad.
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Wrap text after a certain number of characters
+au BufRead,BufNewFile *.py,*.pyw, set textwidth=79
+
+" Use UNIX (\n) line endings.
+au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
