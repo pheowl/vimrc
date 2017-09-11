@@ -2,7 +2,9 @@ set nocompatible              " required
 filetype off                  " required
 set encoding=utf-8
 set nu
+set mouse+=a
 " setlocal spell spelllang=en_us
+
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -34,8 +36,12 @@ filetype plugin indent on    " required
 let g:SimpylFold_docstring_preview=1
 let python_highlight_all=1
 syntax on
+
+let g:airline_powerline_fonts = 1
+
 set laststatus=2
 
+map <c-m> :!markdown % > %.html && firefox %.html<CR>
 map <F2> :NERDTreeToggle<CR>
 map <F3> :setlocal spell! spelllang=en_us<CR>
 set pastetoggle=<F4>
@@ -47,6 +53,8 @@ let Tlist_Close_On_Select = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_File_Fold_Auto_Close = 1
 map <F5> :TlistToggle<CR>
+map <c-w> :w<CR>
+map <c-q> :wqa<CR>
 
 imap <c-g> <Plug>IMAP_JumpForward
 nmap <c-g> <Plug>IMAP_JumpForward
